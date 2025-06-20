@@ -3,8 +3,18 @@ import joblib
 import pandas as pd
 import json
 from pathlib import Path
+from fastapi.middleware.cors import CORSMiddleware  # <-- Añade esto
 
 app = FastAPI()
+
+# 🛜 Configuración CORS (esto va justo después de crear la app)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todos los orígenes (solo para desarrollo)
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos (GET, POST, etc)
+    allow_headers=["*"],  # Permite todos los headers
+)
 
 # Configurar rutas
 current_dir = Path(__file__).parent
