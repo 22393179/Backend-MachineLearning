@@ -1,13 +1,20 @@
+import matplotlib
+matplotlib.use('Agg')
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 from io import BytesIO
+from pathlib import Path
 import base64
 import pandas as pd
 
+def get_data_path():
+    """Función auxiliar para obtener la ruta correcta del dataset"""
+    return Path(__file__).parent.parent.parent / "data" / "Students Social Media Addiction.csv"
+
 def Predicting_the_level_of_social_media_addiction(debug=False):
     try:
-        df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+        df = pd.read_csv(get_data_path())
         
         X = df[["Avg_Daily_Usage_Hours", "Sleep_Hours_Per_Night"]]
         y = df["Addicted_Score"]
@@ -43,7 +50,7 @@ def Predicting_the_level_of_social_media_addiction(debug=False):
 
 def Predicting_the_level_of_social_media_addiction_2(debug=False):
     try:
-        df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+        df = pd.read_csv(get_data_path())
         
         X = df[["Age", "Mental_Health_Score"]]
         y = df["Addicted_Score"]
@@ -79,7 +86,7 @@ def Predicting_the_level_of_social_media_addiction_2(debug=False):
 
 def Predicting_the_level_of_social_media_addiction_3(debug=False):
     try:
-        df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+        df = pd.read_csv(get_data_path())
         
         X = df[["Conflicts_Over_Social_Media", "Mental_Health_Score"]]
         y = df["Addicted_Score"]

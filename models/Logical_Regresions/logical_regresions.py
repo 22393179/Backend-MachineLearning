@@ -1,11 +1,18 @@
+import matplotlib
+matplotlib.use('Agg')
 from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 from io import BytesIO
+from pathlib import Path
 import base64
 import pandas as pd
 
+def get_data_path():
+    """Función auxiliar para obtener la ruta correcta del dataset"""
+    return Path(__file__).parent.parent.parent / "data" / "Students Social Media Addiction.csv"
+
 def logistic_binary():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+    df = pd.read_csv(get_data_path())
     
     # Binzarizar la variable objetivo
     df['Addiction_High'] = (df['Addicted_Score'] > 7).astype(int)
@@ -31,7 +38,7 @@ def logistic_binary():
 
 
 def logistic_multiclass():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+    df = pd.read_csv(get_data_path())
     
     # Crear categorías
     df['Addiction_Level'] = pd.cut(df['Addicted_Score'], 
@@ -58,7 +65,7 @@ def logistic_multiclass():
 
 
 def logistic_regularized():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+    df = pd.read_csv(get_data_path())
     
     X = df[['Avg_Daily_Usage_Hours', 'Addicted_Score', 'Relationship_Status']]
     X = pd.get_dummies(X, columns=['Relationship_Status'])  # One-hot encoding
@@ -78,7 +85,7 @@ def logistic_regularized():
 
 
 def logistic_platform():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+    df = pd.read_csv(get_data_path())
     
     X = df[['Age', 'Addicted_Score', 'Avg_Daily_Usage_Hours']]
     y = (df['Most_Used_Platform'] == 'Instagram').astype(int)

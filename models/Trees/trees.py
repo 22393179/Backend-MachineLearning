@@ -1,15 +1,22 @@
+import matplotlib
+matplotlib.use('Agg')
 from sklearn.tree import plot_tree
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from io import BytesIO
+from pathlib import Path
 import base64
 import pandas as pd
 
+def get_data_path():
+    """Función auxiliar para obtener la ruta correcta del dataset"""
+    return Path(__file__).parent.parent.parent / "data" / "Students Social Media Addiction.csv"
+
 # 1. Árbol con variables numéricas (clasificación binaria)
 def tree_numeric_binary():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+
+    df = pd.read_csv(get_data_path())
+
     df['Addiction_High'] = (df['Addicted_Score'] > 7).astype(int)
     
     X = df[['Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night']]
@@ -29,7 +36,7 @@ def tree_numeric_binary():
 
 # 2. Árbol con variables categóricas (clasificación binaria)
 def tree_categorical_instagram():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+    df = pd.read_csv(get_data_path())
     df['Is_Instagram'] = (df['Most_Used_Platform'] == 'Instagram').astype(int)
     
     X = pd.get_dummies(df[['Country', 'Academic_Level']])
@@ -49,7 +56,7 @@ def tree_categorical_instagram():
 
 # 3. Árbol mixto (numéricas + categóricas, simulando regularización con max_depth)
 def tree_mixed_conflict():
-    df = pd.read_csv("../../data/Students Social Media Addiction.csv")
+    df = pd.read_csv(get_data_path())
     df['Conflict_High'] = (df['Conflicts_Over_Social_Media'] > 2).astype(int)
     
     X = df[['Avg_Daily_Usage_Hours', 'Mental_Health_Score', 'Relationship_Status']]
