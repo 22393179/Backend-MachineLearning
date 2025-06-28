@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import CORS
 from models.Lineal_Regressions.regresion_lineal import (
     Predicting_the_level_of_social_media_addiction,
     Predicting_the_level_of_social_media_addiction_2,
@@ -6,6 +7,9 @@ from models.Lineal_Regressions.regresion_lineal import (
 )
 
 lineal_blueprint = Blueprint('lineal', __name__)
+
+# ✅ Permitir solicitudes desde tu frontend
+CORS(lineal_blueprint, origins=["http://localhost:5173"])
 
 @lineal_blueprint.route('/predict-addiction-1', methods=['GET'])
 def predict_addiction_1():
@@ -19,7 +23,7 @@ def predict_addiction_2():
 def predict_addiction_3():
     return _handle_prediction(Predicting_the_level_of_social_media_addiction_3)
 
-# Función auxiliar para evitar repetir código
+# Función auxiliar
 def _handle_prediction(model_function):
     try:
         debug = request.args.get('debug', 'false').lower() == 'true'
