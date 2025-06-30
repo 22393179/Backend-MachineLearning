@@ -3,12 +3,14 @@ from flask_cors import CORS
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.cluster import KMeans
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import plot_tree
 from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from io import BytesIO
 import base64
 import logging
@@ -80,20 +82,22 @@ def predict_user_addiction():
         logging.debug(f"Missing values:\n{df[['Avg_Daily_Usage_Hours', 'Addicted_Score']].isnull().sum().to_dict()}")
 
         # Check for required columns
-        expected_columns = ['Avg_Daily_Usage_Hours', 'Addicted_Score', 'Mental_Health_Score']
+        expected_columns = ['Avg_Daily_Usage_Hours', 'Addicted_Score', 'Mental_Health_Score', 'Sleep_Hours_Per_Night']
         missing_columns = [col for col in expected_columns if col not in df.columns]
         if missing_columns:
-            logging.error(f"Missing columns in dataset: {missing_columns}")
-            return jsonify({"error": f"Missing columns in dataset: {', '.join(missing_columns)}"}), 500
+            logging.error(f"Faltan columnas en el dataset: {missing_columns}")
+            return jsonify({"error": f"Faltan columnas en el dataset: {', '.join(missing_columns)}"}), 500
 
         # Clean dataset: Fill NaN with mean for numeric columns
         df['Avg_Daily_Usage_Hours'] = df['Avg_Daily_Usage_Hours'].fillna(df['Avg_Daily_Usage_Hours'].mean())
         df['Addicted_Score'] = df['Addicted_Score'].fillna(df['Addicted_Score'].mean())
-        logging.debug(f"After filling NaN, missing values:\n{df[['Avg_Daily_Usage_Hours', 'Addicted_Score']].isnull().sum().to_dict()}")
+        df['Sleep_Hours_Per_Night'] = df['Sleep_Hours_Per_Night'].fillna(df['Sleep_Hours_Per_Night'].mean())
+        logging.debug(f"Después de rellenar NaN, valores faltantes:\n{df[['Avg_Daily_Usage_Hours', 'Addicted_Score', 'Sleep_Hours_Per_Night']].isnull().sum().to_dict()}")
 
-        if df['Addicted_Score'].isnull().all() or df['Avg_Daily_Usage_Hours'].isnull().all():
-            logging.error("All values in Addicted_Score or Avg_Daily_Usage_Hours are still NaN after filling")
-            return jsonify({"error": "Dataset contains no valid data for Addicted_Score or Avg_Daily_Usage_Hours"}), 500
+        if df['Addicted_Score'].isnull().all() or df['Avg_Daily_Usage_Hours'].isnull().all() or df['Sleep_Hours_Per_Night'].isnull().all():
+            logging.error("Todos los valores en Addicted_Score, Avg_Daily_Usage_Hours o Sleep_Hours_Per_Night siguen siendo NaN después de rellenar")
+            return jsonify({"error": "El dataset no contiene datos válidos para las columnas requeridas"}), 500
+
 
         mean_mental_health_score = df['Mental_Health_Score'].mean()
 
@@ -104,17 +108,17 @@ def predict_user_addiction():
         valid_most_used_platform = df['Most_Used_Platform'].unique().tolist()
         valid_country = df['Country'].unique().tolist()
 
-        if data['Gender'] not in valid_gender:
-            return jsonify({"error": f"Invalid Gender. Valid values: {', '.join(valid_gender)}"}), 400
-        if data['Relationship_Status'] not in valid_relationship_status:
-            return jsonify({"error": f"Invalid Relationship_Status. Valid values: {', '.join(valid_relationship_status)}"}), 400
-        if data['Academic_Level'] not in valid_academic_level:
-            return jsonify({"error": f"Invalid Academic_Level. Valid values: {', '.join(valid_academic_level)}"}), 400
-        if data['Most_Used_Platform'] not in valid_most_used_platform:
-            return jsonify({"error": f"Invalid Most_Used_Platform. Valid values: {', '.join(valid_most_used_platform)}"}), 400
-        if data['Country'] not in valid_country:
-            return jsonify({"error": f"Invalid Country. Valid values: {', '.join(valid_country)}"}), 400
 
+        if data['Gender'] not in valid_gender:
+            return jsonify({"error": f"Género no válido. Valores válidos: {', '.join(valid_gender)}"}), 400
+        if data['Relationship_Status'] not in valid_relationship_status:
+            return jsonify({"error": f"Estado de relación no válido. Valores válidos: {', '.join(valid_relationship_status)}"}), 400
+        if data['Academic_Level'] not in valid_academic_level:
+            return jsonify({"error": f"Nivel académico no válido. Valores válidos: {', '.join(valid_academic_level)}"}), 400
+        if data['Most_Used_Platform'] not in valid_most_used_platform:
+            return jsonify({"error": f"Plataforma más usada no válida. Valores válidos: {', '.join(valid_most_used_platform)}"}), 400
+        if data['Country'] not in valid_country:
+            return jsonify({"error": f"País no válido. Valores válidos: {', '.join(valid_country)}"}), 400
         # Create DataFrame with user data
         user_data = pd.DataFrame({
             'Age': [data['Age']],
@@ -189,19 +193,38 @@ def predict_user_addiction():
         user_X_tree_binary = user_data[['Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night']]
         tree_binary_pred = model_tree_binary.predict(user_X_tree_binary)[0]
 
+        # --- KMeans Clustering ---
+        X_kmeans = df[['Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night', 'Addicted_Score']].dropna()
+        kmeans = KMeans(n_clusters=3, random_state=42)
+        kmeans.fit(X_kmeans)
+        user_X_kmeans = user_data[['Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night']].copy()
+        # Since Addicted_Score is not provided by user, use the predicted score from Linear Regression 1
+        user_X_kmeans['Addicted_Score'] = addiction_score_1
+        user_cluster = kmeans.predict(user_X_kmeans)[0]
+        cluster_centers = kmeans.cluster_centers_
+
         # --- Generate Plots ---
         # Scatter Plot: Avg_Daily_Usage_Hours vs Addicted_Score
         plt.figure(figsize=(10, 6))
         valid_data = df[['Avg_Daily_Usage_Hours', 'Addicted_Score']].dropna()
+        logging.debug(f"Valid data shape: {valid_data.shape}")
+        logging.debug(f"Valid data dtypes:\n{valid_data.dtypes}")
         if not valid_data.empty:
-            plt.scatter(valid_data['Avg_Daily_Usage_Hours'], valid_data['Addicted_Score'], alpha=0.5, label='Dataset', color='blue')
+            plt.scatter(valid_data['Avg_Daily_Usage_Hours'].astype(float), 
+                        valid_data['Addicted_Score'].astype(float), 
+                        alpha=0.5, label='Dataset', color='blue')
             logging.debug(f"Plotted {len(valid_data)} dataset points for scatter plot")
         else:
             logging.error("No valid data for scatter plot after dropping NaN")
-        plt.scatter(user_data['Avg_Daily_Usage_Hours'], addiction_score_1, color='red', s=100, label='User', marker='*')
+        if not pd.isna(addiction_score_1):
+            plt.scatter(float(user_data['Avg_Daily_Usage_Hours'].iloc[0]), 
+                        float(addiction_score_1), 
+                        color='red', s=100, label='User', marker='*')
+        else:
+            logging.error("addiction_score_1 is NaN, skipping user point in scatter plot")
         plt.xlabel('Daily Usage Hours')
         plt.ylabel('Addiction Score')
-        plt.title('Daily Usage vs. Addiction Score')
+        plt.title('Uso diario vs. Nivel de adicción')
         plt.legend()
         buffer = BytesIO()
         plt.savefig(buffer, format='png', dpi=120)
@@ -219,7 +242,7 @@ def predict_user_addiction():
         plt.axvline(x=addiction_score_1, color='red', linestyle='--', label='User')
         plt.xlabel('Addiction Score')
         plt.ylabel('Frequency')
-        plt.title('Addiction Score Distribution')
+        plt.title('Distribución del nivel de adicción')
         plt.legend()
         buffer = BytesIO()
         plt.savefig(buffer, format='png', dpi=120)
@@ -233,21 +256,85 @@ def predict_user_addiction():
                  class_names=['Low', 'High'],
                  filled=True, 
                  rounded=True)
-        plt.title('Decision Tree for Binary Addiction Classification')
+        plt.title('Árbol de decisión para clasificación binaria de adicción')
         buffer = BytesIO()
         plt.savefig(buffer, format='png', dpi=120)
         plt.close()
         tree_plot = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
-        # --- Result Interpretation ---
+        # 3D Scatter Plot: KMeans Clustering
+        plt.figure(figsize=(10, 8))
+        ax = plt.axes(projection='3d')
+        valid_kmeans_data = df[['Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night', 'Addicted_Score']].dropna()
+        logging.debug(f"Valid KMeans data shape: {valid_kmeans_data.shape}")
+        logging.debug(f"Valid KMeans data dtypes:\n{valid_kmeans_data.dtypes}")
+        if not valid_kmeans_data.empty:
+            clusters = kmeans.predict(valid_kmeans_data)
+            scatter = ax.scatter(
+                valid_kmeans_data['Avg_Daily_Usage_Hours'].astype(float),
+                valid_kmeans_data['Sleep_Hours_Per_Night'].astype(float),
+                valid_kmeans_data['Addicted_Score'].astype(float),
+                c=clusters,
+                cmap='viridis',
+                alpha=0.5,
+                label='Dataset Clusters'
+            )
+            user_X_kmeans = user_data[['Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night']].copy()
+            user_X_kmeans['Addicted_Score'] = addiction_score_1
+            logging.debug(f"user_X_kmeans:\n{user_X_kmeans.to_dict()}")
+            logging.debug(f"addiction_score_1: {addiction_score_1}")
+            if not user_X_kmeans.isnull().any().any() and not pd.isna(addiction_score_1):
+                ax.scatter(
+                    float(user_X_kmeans['Avg_Daily_Usage_Hours'].iloc[0]),
+                    float(user_X_kmeans['Sleep_Hours_Per_Night'].iloc[0]),
+                    float(user_X_kmeans['Addicted_Score'].iloc[0]),
+                    color='red',
+                    s=200,
+                    marker='*',
+                    label='User'
+                )
+                logging.debug("User point plotted in KMeans 3D plot")
+            else:
+                logging.error("Invalid user_X_kmeans or addiction_score_1, skipping user point")
+            ax.scatter(
+                cluster_centers[:, 0].astype(float),
+                cluster_centers[:, 1].astype(float),
+                cluster_centers[:, 2].astype(float),
+                color='black',
+                s=200,
+                marker='x',
+                label='Cluster Centers'
+            )
+            ax.set_xlim(valid_kmeans_data['Avg_Daily_Usage_Hours'].min(), valid_kmeans_data['Avg_Daily_Usage_Hours'].max())
+            ax.set_ylim(valid_kmeans_data['Sleep_Hours_Per_Night'].min(), valid_kmeans_data['Sleep_Hours_Per_Night'].max())
+            ax.set_zlim(valid_kmeans_data['Addicted_Score'].min(), valid_kmeans_data['Addicted_Score'].max())
+            ax.set_xlabel('Daily Usage Hours')
+            ax.set_ylabel('Sleep Hours')
+            ax.set_zlabel('Addiction Score')
+            ax.set_title('KMeans: Adicción a redes sociales')
+            plt.legend()
+            buffer = BytesIO()
+            plt.savefig(buffer, format='png', dpi=120)
+            plt.close()
+            kmeans_plot = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        else:
+            logging.error("No valid data for KMeans 3D plot")
+            kmeans_plot = None      
+
+        # Interpretaciones
         addiction_level_interpretation = {
-            'Bajo': 'The person shows a low level of social media addiction.',
-            'Medio': 'The person has a moderate level of social media addiction, which may require attention.',
-            'Alto': 'The person shows a high level of social media addiction, intervention is recommended.'
+            'Bajo': 'La persona presenta un nivel bajo de adicción a redes sociales.',
+            'Medio': 'La persona presenta un nivel moderado de adicción a redes sociales, lo cual podría requerir atención.',
+            'Alto': 'La persona presenta un alto nivel de adicción a redes sociales. Se recomienda intervención.'
         }
         binary_interpretation = {
-            0: 'Low or moderate addiction.',
-            1: 'High addiction, further evaluation recommended.'
+            0: 'Adicción baja o moderada.',
+            1: 'Alta adicción, se recomienda una evaluación más profunda.'
+        }
+        cluster_interpretation = {
+            0: 'Grupo 0: Probablemente baja adicción, con uso moderado y buen descanso.',
+            1: 'Grupo 1: Adicción moderada con mayor uso y menor sueño.',
+            2: 'Grupo 2: Alta adicción, uso excesivo y poco descanso.'
         }
 
         # Response JSON
@@ -258,7 +345,7 @@ def predict_user_addiction():
                     "model_1_usage_sleep": round(float(addiction_score_1), 2),
                     "model_2_age_mental": round(float(addiction_score_2), 2),
                     "model_3_conflicts_mental": round(float(addiction_score_3), 2),
-                    "note": "Models 2 and 3 use an imputed average for Mental_Health_Score"
+                    "note": "Los modelos 2 y 3 utilizan un promedio imputado para Mental_Health_Score"
                 },
                 "logistic_binary": {
                     "prediction": int(addiction_binary),
@@ -269,21 +356,26 @@ def predict_user_addiction():
                     "prediction": str(addiction_multi),
                     "probabilities": {k: round(float(v), 2) for k, v in multi_probs_dict.items()},
                     "interpretation": addiction_level_interpretation[str(addiction_multi)],
-                    "note": "This model uses an imputed average for Mental_Health_Score and includes Gender"
+                    "note": "Este modelo utiliza un promedio imputado para Mental_Health_Score e incluye Género"
                 },
                 "decision_tree_binary": {
                     "prediction": int(tree_binary_pred),
                     "interpretation": binary_interpretation[int(tree_binary_pred)]
+                },
+                "kmeans_clustering": {
+                    "cluster": int(user_cluster),
+                    "interpretation": cluster_interpretation.get(int(user_cluster), "Grupo desconocido")
                 }
             },
             "plots": {
                 "scatter_plot": scatter_plot,
                 "histogram_plot": histogram_plot,
-                "tree_plot": tree_plot
+                "tree_plot": tree_plot,
+                "kmeans_3d_plot": kmeans_plot
             }
         }
         return jsonify(response), 200
 
     except Exception as e:
-        logging.error(f"Prediction error: {str(e)}")
-        return jsonify({"error": f"Error in prediction: {str(e)}"}), 500
+        logging.error(f"Error de predicción: {str(e)}")
+        return jsonify({"error": f"Error en la predicción: {str(e)}"}), 500
