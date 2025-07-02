@@ -8,8 +8,8 @@ from sklearn.preprocessing import LabelEncoder
 
 model_07_blueprint = Blueprint('model_07', __name__)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model_07.pkl')
-LE_TARGET_PATH = os.path.join(os.path.dirname(__file__), 'le_target_07.pkl')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'modelos', 'model_07.pkl')
+LE_TARGET_PATH = os.path.join(os.path.dirname(__file__), 'modelos', 'le_target_07.pkl')
 FEATURES = ['Age', 'Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night', 'Mental_Health_Score', 'Academic_Level', 'Country']
 CATEGORICAL_COLUMNS = ['Academic_Level', 'Country']
 NUMERIC_COLUMNS = ['Age', 'Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night', 'Mental_Health_Score']
@@ -23,7 +23,7 @@ def train_model_07():
     for col in CATEGORICAL_COLUMNS:
         le = LabelEncoder()
         X[col] = le.fit_transform(X[col])
-        joblib.dump(le, os.path.join(os.path.dirname(__file__), f'le_{col}_07.pkl'))
+        joblib.dump(le, os.path.join(os.path.dirname(__file__), 'modelos', f'le_{col}_07.pkl'))
     model = RandomForestClassifier(random_state=42)
     train_and_save_model(model, X, y_enc, MODEL_PATH)
     joblib.dump(le_target, LE_TARGET_PATH)

@@ -7,7 +7,7 @@ import joblib
 
 model_10_blueprint = Blueprint('model_10', __name__)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model_10.pkl')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'modelos', 'model_10.pkl')
 FEATURES = ['Addicted_Score']
 NUMERIC_COLUMNS = FEATURES
 

@@ -7,7 +7,7 @@ import joblib
 
 model_09_blueprint = Blueprint('model_09', __name__)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model_09.pkl')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'modelos', 'model_09.pkl')
 FEATURES = ['Age', 'Avg_Daily_Usage_Hours', 'Sleep_Hours_Per_Night', 'Mental_Health_Score', 'Conflicts_Over_Social_Media', 'Addicted_Score']
 NUMERIC_COLUMNS = FEATURES
 

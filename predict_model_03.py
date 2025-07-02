@@ -8,7 +8,7 @@ from sklearn.preprocessing import LabelEncoder
 
 model_03_blueprint = Blueprint('model_03', __name__)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model_03.pkl')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'modelos', 'model_03.pkl')
 FEATURES = [
     'Age', 'Gender', 'Academic_Level', 'Country', 'Avg_Daily_Usage_Hours',
     'Most_Used_Platform', 'Sleep_Hours_Per_Night', 'Mental_Health_Score',
@@ -27,7 +27,7 @@ def train_model_03():
     for col in CATEGORICAL_COLUMNS:
         le = LabelEncoder()
         X[col] = le.fit_transform(X[col])
-        joblib.dump(le, os.path.join(os.path.dirname(__file__), f'le_{col}_03.pkl'))
+        joblib.dump(le, os.path.join(os.path.dirname(__file__), 'modelos', f'le_{col}_03.pkl'))
     model = LinearRegression()
     train_and_save_model(model, X, y, MODEL_PATH)
 

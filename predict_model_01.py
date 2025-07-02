@@ -8,7 +8,7 @@ import joblib
 
 model_01_blueprint = Blueprint('model_01', __name__)
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model_01.pkl')
+MODEL_PATH = os.path.join(os.path.dirname(__file__),'modelos', 'model_01.pkl')
 FEATURES = [
     'Age', 'Gender', 'Academic_Level', 'Country', 'Avg_Daily_Usage_Hours',
     'Most_Used_Platform', 'Sleep_Hours_Per_Night', 'Mental_Health_Score',
@@ -27,7 +27,7 @@ def train_model_01():
     for col in CATEGORICAL_COLUMNS:
         le = LabelEncoder()
         X[col] = le.fit_transform(X[col])
-        joblib.dump(le, os.path.join(os.path.dirname(__file__), f'le_{col}_01.pkl'))
+        joblib.dump(le, os.path.join(os.path.dirname(__file__), 'modelos', f'le_{col}_01.pkl'))
     model = LinearRegression()
     train_and_save_model(model, X, y, MODEL_PATH)
 
