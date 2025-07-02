@@ -46,18 +46,43 @@ def predict_all():
             return jsonify({'status': 'error', 'error': 'No se proporcionaron datos'}), 400
 
         models = [
+            #! 1. predice el nivel de adicción
             ('predict-model-01', 'Addicted_Score_Prediction', 'addicted_score_prediction_plot'),
+
+            #!  2. horas de sueño por noche
             ('predict-model-02', 'Sleep_Hours_Prediction', 'sleep_hours_prediction_plot'),
+
+            #! 3. Predicción de conflictos sociales por redes
             ('predict-model-03', 'Conflicts_Prediction', 'conflicts_prediction_plot'),
+
+            #! 4. predicción del impacto académico
             ('predict-model-04', 'Academic_Impact_Prediction', 'academic_impact_prediction_plot'),
+
+            #! 5. Riesgo de salud mental baja.
             ('predict-model-05', 'Mental_Health_Risk_Prediction', 'mental_health_risk_prediction_plot'),
+
+            #! 6. Clasificación adicción alta/baja.
             ('predict-model-06', 'Addiction_Classification', 'addiction_classification_plot'),
+
+            #! 7. Plataforma más usada (perfil usuario)
             ('predict-model-07', 'Most_Used_Platform', 'most_used_platform_plot'),
+
+            #! 8. Estado de relación por variables.
             ('predict-model-08', 'Relationship_Status', 'relationship_status_plot'),
+
+             #! 9. Agrupar usuarios según su comportamiento en redes sociales (clustering)
             ('predict-model-09', 'Cluster', 'cluster_plot'),
+
+            #! 10. Modelo Adicción vs Sueño
             ('predict-model-10', 'Addiction_vs_Sleep', 'addiction_vs_sleep_plot'),
+
+            #! 11. Predecir el nivel de conflictos que un usuario tiene en redes sociales
             ('predict-model-11', 'Social_Media_Conflicts', 'social_media_conflicts_plot'),
+
+            #! 12. Riesgo de bajo rendimiento académico
             ('predict-model-12', 'Academic_Performance_Risk', 'academic_performance_risk_plot'),
+
+            #! 13. Modelo mixto general con RandomForest
             ('predict-model-13', 'General_Mixed_Model', 'general_mixed_model_plot'),
         ]
 
