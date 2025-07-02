@@ -10,24 +10,26 @@ cd Backend-MachineLearning
 ``` 
 
 ### Crea y activa el entorno virtual:
-```bash
-python -m venv .venv  
-```
-**Windows:**  
-.venv\Scripts\activate.ps1
 
-**Linux/Mac:**  
-source .venv/bin/activate
+```bash
+python -m venv env 
+```
+
+**Windows:**
+```bash
+env\Scripts\activate
+```
+
+**Linux/Mac:**
+```bash
+source env/bin/activate
+```
 
 ### Instala dependencias:
+
 ```bash
 pip install -r requirements.txt  
 ```
-
-### Entrena los modelos:
-```bash
-python -m models.train_all
-``` 
 
 ### Inicia la API:
 ```bash

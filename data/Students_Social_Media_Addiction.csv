@@ -1,0 +1,105 @@
+Age,Gender,Academic_Level,Country,Avg_Daily_Usage_Hours,Most_Used_Platform,Affects_Academic_Performance,Sleep_Hours_Per_Night,Mental_Health_Score,Relationship_Status,Conflicts_Over_Social_Media,Addicted_Score
+21,Hombre,University Higher Technician,Mexico,6,YouTube,0,5,6,Single,0,5
+20,Hombre,University Higher Technician,Mexico,6,Instagram,0,11,8,In a relationship,3,5
+20,Hombre,University Higher Technician,Mexico,5,TikTok,0,4,10,Single,2,2
+21,Hombre,University Higher Technician,Mexico,4,TikTok,0,8,7,Single,1,6
+20,Hombre,University Higher Technician,Mexico,2,Instagram,0,7,3,In a relationship,1,1
+21,Otro,Engineer,Guatemala,10,Instagram,0,4,1,In a relationship,1,8
+30,Mujer,Preparatory,Mexico,3,Facebook,0,0,8,Married,1,4
+24,Hombre,University Higher Technician,Colombia,7,Otra,1,7,7,Complicated,1,6
+16,Mujer,Secondary,Mexico,0,Facebook,0,0,8,Single,1,0
+19,Hombre,University Higher Technician,Colombia,18,Discord,0,6,5,Single,0,8
+47,Hombre,Secondary,Mexico,6,Facebook,0,7,7,Married,0,6
+25,Hombre,University Higher Technician,Ecuador,5,YouTube,0,5,5,Single,0,5
+20,Mujer,Preparatory,Mexico,3,TikTok,0,8,10,In a relationship,0,3
+9,Hombre,Primary,Mexico,1,TikTok,0,9,10,Single,0,10
+35,Hombre,graduate,Mexico,6,WhatsApp,0,7,10,Single,0,4
+17,Mujer,Preparatory,Mexico,6,TikTok,0,9,10,Single,3,8
+20,Hombre,University Higher Technician,Mexico,1,YouTube,1,7,4,In a relationship,2,3
+20,Mujer,University Higher Technician,Mexico,3,Instagram,1,10,7,In a relationship,0,8
+31,Mujer,Secondary,Mexico,6,Facebook,1,7,8,Married,0,7
+28,Hombre,Engineer,Mexico,3,Facebook,0,7,8,In a relationship,0,7
+28,Hombre,Engineer,Mexico,3,Facebook,0,7,8,In a relationship,0,7
+23,Hombre,University Higher Technician,Colombia,1,Discord,0,8,10,Complicated,2,1
+36,Mujer,graduate,Mexico,3,Facebook,0,7,10,Married,0,5
+35,Hombre,graduate,Mexico,8,WhatsApp,1,5,7,Single,5,10
+17,Mujer,Preparatory,Mexico,4,TikTok,0,7,10,Single,3,3
+17,Mujer,Preparatory,Mexico,4,TikTok,0,7,10,Single,3,3
+20,Mujer,Preparatory,Mexico,10,Facebook,0,9,8,Single,1,7
+20,Hombre,Preparatory,Mexico,5,TikTok,0,5,5,In a relationship,4,10
+10,Hombre,University Higher Technician,Brasil,0,WhatsApp,0,10,10,In a relationship,5,10
+33,Mujer,graduate,Mexico,5,TikTok,0,8,10,Married,1,7
+40,Mujer,University Higher Technician,Mexico,3,WhatsApp,0,7,10,Married,0,4
+22,Hombre,Preparatory,Peru,3,Twitter,0,6,6,Single,0,7
+19,Mujer,Secondary,Mexico,5,WhatsApp,0,8,8,Complicated,2,3
+39,Mujer,graduate,Mexico,5,Facebook,0,9,9,Married,0,5
+21,Hombre,Preparatory,Peru,6,TikTok,0,7,7,Single,1,4
+21,Hombre,University Higher Technician,Mexico,2,TikTok,1,8,9,In a relationship,0,3
+21,Hombre,University Higher Technician,Mexico,2,TikTok,1,8,9,In a relationship,0,3
+20,Hombre,Engineer,Mexico,3,TikTok,1,5,9,Single,3,5
+20,Hombre,Engineer,Mexico,3,TikTok,1,5,9,Single,3,5
+40,Mujer,Preparatory,Mexico,10,WhatsApp,0,8,10,Married,0,6
+20,Hombre,University Higher Technician,Mexico,5,TikTok,0,8,10,Single,1,5
+23,Hombre,University Higher Technician,Mexico,7,Facebook,0,7,10,In a relationship,1,10
+52,Mujer,Secondary,Mexico,3,Facebook,0,7,8,Married,0,3
+21,Mujer,graduate,Mexico,6,WhatsApp,0,10,7,In a relationship,0,5
+21,Mujer,graduate,Mexico,6,WhatsApp,0,10,7,In a relationship,0,5
+21,Mujer,graduate,Mexico,10,TikTok,0,10,7,In a relationship,0,7
+20,Mujer,graduate,Mexico,4,TikTok,1,8,9,Single,0,6
+20,Mujer,graduate,Mexico,4,TikTok,1,8,9,Single,0,6
+19,Hombre,Preparatory,Mexico,5,TikTok,0,8,7,Single,0,6
+20,Mujer,University Higher Technician,Mexico,4,TikTok,0,8,7,Single,0,3
+20,Mujer,University Higher Technician,Mexico,4,TikTok,0,8,7,Single,0,3
+22,Hombre,graduate,Mexico,3,YouTube,0,7,7,Single,2,6
+20,Mujer,graduate,Mexico,4,TikTok,0,7,7,Single,0,8
+22,Mujer,graduate,Mexico,4,Instagram,0,7,4,Single,3,8
+20,Mujer,graduate,Mexico,5,TikTok,0,6,4,Single,2,6
+20,Mujer,graduate,Mexico,5,TikTok,0,5,4,Single,2,4
+22,Hombre,graduate,Mexico,5,TikTok,0,4,8,Complicated,0,3
+18,Mujer,Preparatory,Mexico,3,Facebook,0,10,10,Single,0,2
+56,Hombre,Preparatory,Mexico,6,TikTok,0,5,7,Married,0,5
+56,Mujer,University Higher Technician,Mexico,3,Facebook,0,7,9,Married,0,2
+24,Mujer,Secondary,Mexico,5,Facebook,0,9,9,Married,0,5
+65,Mujer,Secondary,Mexico,4,Facebook,0,7,8,Single,1,4
+35,Hombre,Preparatory,Mexico,4,Facebook,0,8,10,Married,1,1
+37,Mujer,graduate,Mexico,5,WhatsApp,0,8,10,Single,0,1
+26,Mujer,University Higher Technician,Mexico,3,YouTube,0,6,10,Single,0,2
+17,Mujer,Preparatory,Mexico,4,TikTok,0,5,7,In a relationship,2,2
+12,Hombre,Secondary,Mexico,2,TikTok,0,8,9,Single,0,5
+38,Mujer,Preparatory,Mexico,5,Facebook,1,8,3,Complicated,5,3
+35,Hombre,Preparatory,Mexico,7,Facebook,0,7,10,Married,1,5
+29,Hombre,graduate,Mexico,15,Facebook,0,7,8,Married,0,8
+52,Mujer,graduate,Mexico,1,WhatsApp,0,8,10,Married,0,1
+22,Mujer,graduate,Mexico,4,WhatsApp,0,7,9,In a relationship,0,6
+20,Mujer,University Higher Technician,Mexico,4,TikTok,0,4,3,Single,2,3
+59,Mujer,Preparatory,Mexico,1,WhatsApp,0,8,9,Married,1,2
+23,Hombre,Secondary,Mexico,2,Facebook,0,6,10,Married,5,9
+17,Hombre,Preparatory,Mexico,4,TikTok,0,6,6,Single,0,5
+55,Mujer,Secondary,Mexico,1,YouTube,0,7,9,Married,1,1
+19,Hombre,Preparatory,Mexico,4,WhatsApp,0,8,10,In a relationship,0,5
+21,Mujer,University Higher Technician,Mexico,5,TikTok,0,7,3,Single,0,7
+21,Mujer,graduate,Mexico,2,TikTok,0,4,5,Single,0,8
+21,Hombre,Preparatory,Mexico,4,TikTok,0,7,8,In a relationship,0,5
+10,Hombre,Engineer,Mexico,5,Facebook,1,10,10,Single,0,10
+39,Mujer,Secondary,Mexico,10,Facebook,0,6,10,In a relationship,0,3
+18,Otro,Preparatory,Mexico,4,TikTok,0,8,8,In a relationship,2,6
+37,Mujer,Secondary,Mexico,7,WhatsApp,0,8,10,Married,0,5
+20,Mujer,University Higher Technician,Mexico,6,TikTok,0,6,10,Complicated,2,8
+18,Hombre,Preparatory,Mexico,7,TikTok,0,7,8,In a relationship,5,4
+22,Mujer,University Higher Technician,Mexico,7,Instagram,0,6,7,Single,3,8
+15,Hombre,Secondary,Mexico,3,WhatsApp,0,8,9,In a relationship,4,7
+20,Hombre,University Higher Technician,Mexico,3,TikTok,0,8,8,Complicated,3,5
+30,Hombre,graduate,Mexico,8,LinkedIn,0,7,10,Married,2,5
+15,Hombre,Secondary,Mexico,3,TikTok,0,8,8,Single,2,4
+27,Mujer,Engineer,Mexico,4,WhatsApp,0,6,8,In a relationship,3,5
+16,Mujer,Preparatory,Mexico,6,TikTok,0,8,8,Single,2,7
+20,Hombre,University Higher Technician,Mexico,5,Instagram,0,8,10,In a relationship,3,6
+10,Hombre,Primary,Mexico,6,YouTube,0,8,9,Single,0,5
+15,Hombre,Secondary,Mexico,5,YouTube,0,6,9,Single,0,6
+9,Mujer,Primary,Mexico,6,TikTok,0,7,8,Single,0,7
+20,Mujer,University Higher Technician,Mexico,4,TikTok,0,7,8,In a relationship,3,5
+52,Hombre,Preparatory,Mexico,4,Facebook,0,6,8,Married,0,6
+40,Hombre,Engineer,Mexico,5,Discord,0,5,7,In a relationship,0,5
+16,Mujer,Preparatory,Mexico,5,TikTok,0,8,10,In a relationship,5,5
+17,Mujer,Preparatory,Mexico,3,TikTok,0,7,8,In a relationship,3,4
+18,Mujer,Preparatory,Mexico,7,Instagram,0,8,9,Single,0,9
